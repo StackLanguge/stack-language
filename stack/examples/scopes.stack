@@ -1,0 +1,6 @@
+1 `x set
+push_scope
+2 `x set
+x print
+pop_scope
+x print

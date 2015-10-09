@@ -1,0 +1,2 @@
+'lpop test' print
+[] 1 lappend dup lpop print print

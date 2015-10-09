@@ -1,0 +1,4 @@
+{ 'spam' print 'Spam' print 'SPAM' print }
+`spam def
+'Calling "spam"' print
+spam

@@ -1,0 +1,6 @@
+'lin test' print
+[] 1 lappend 2 lappend 3 lappend
+dup dup
+print
+2 lin print
+5 lin print

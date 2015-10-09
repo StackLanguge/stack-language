@@ -1,0 +1,2 @@
+'lreplace test' print
+[] 1 lappend 2 lappend 0 'spam' lreplace print

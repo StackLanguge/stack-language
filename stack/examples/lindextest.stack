@@ -1,0 +1,5 @@
+'lindex test' print
+[] 0 lappend 1 lappend 2 lappend 3 lappend
+dup dup print
+2 lindex print
+5 lindex print

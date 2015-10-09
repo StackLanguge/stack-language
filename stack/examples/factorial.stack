@@ -1,0 +1,6 @@
+'Factorial Calculater 2' print
+{ 'Enter a number ' input num `n set
+{ dup 1 = not { dup 1 - fact * } if } `fact def
+n fact
+'The factorial of' print n print 'is' print print prog } `prog def
+prog

@@ -1,0 +1,5 @@
+'Hello, World!' print
+'Nice to meet you, '
+'Who are you? ' input
+concat
+print

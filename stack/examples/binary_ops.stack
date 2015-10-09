@@ -1,0 +1,5 @@
+5 BNOT print
+5 6 BOR print
+5 6 BAND print
+5 6 BXOR print
+'The output should have been -6, 7, 4, 3' print

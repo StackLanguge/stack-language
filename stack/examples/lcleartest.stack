@@ -1,0 +1,5 @@
+'lclear test' print
+[] 0 lappend
+dup print
+lclear
+print

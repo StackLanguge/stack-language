@@ -1,0 +1,4 @@
+'lreverse test' print
+[] 1 lappend 2 lappend 3 lappend
+dup print
+lreverse print
