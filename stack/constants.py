@@ -12,6 +12,7 @@ BUILTIN_OPS = (
     #String ops
     'concat',
     'string',
+    'letterof',
     #IO ops
     'print',
     'input',
@@ -56,6 +57,7 @@ BUILTIN_OPS = (
     'dump_scope',
     #Misc ops
     'wait',
+    'reverse',
     )
 
 DATA_TYPES = (

@@ -192,6 +192,20 @@ def _stream_interpet(token_stream):
                                  'There are not enough values to pop.')
                 res = Token(TYPE='str', VAL=str(val1.VAL))
                 data_stack.append(res)
+            elif op == 'letterof':
+                try:
+                    val2, val1 = data_stack.pop(), data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'letterof',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != 'num':
+                    report_error('TYPE', 'letterof',
+                                 '%s is not a number!' % str(val1))
+                if val2.TYPE != 'str':
+                    report_error('TYPE', 'letterof',
+                                 '%s is not a string!' % str(val2))
+                res = Token(TYPE='str', VAL=val2.VAL[val1.VAL])
+                data_stack.append(res)
             #IO ops
             elif op == 'print':
                 try:
@@ -524,6 +538,17 @@ def _stream_interpet(token_stream):
                                  '%s is not a number!' % str(val1))
                 time.sleep(val1.VAL)
 
+            elif op == 'reverse':
+                try:
+                    val1 = data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'reverse',
+                                 'There are not enough values to pop.')
+                if val1.TYPE not in ( 'list','str'):
+                    report_error('TYPE', 'reverse',
+                                 '%s is not a string or a list!' % str(val1))
+                res = Token(TYPE=val1.TYPE,VAL=val1.VAL[::-1])
+                data_stack.append(res)
             #Control flow ops
             elif op == 'if':
                 try:
@@ -557,9 +582,9 @@ def _stream_interpet(token_stream):
                     report_error('TYPE', 'ifelse',
                                  '%s is not a bool!' % str(val1))
                 if val3.VAL:
-                    token_stream[i+1:i+1] = val1.VAL
-                else:
                     token_stream[i+1:i+1] = val2.VAL
+                else:
+                    token_stream[i+1:i+1] = val1.VAL
 
             #User word ops
             elif op == 'def':
