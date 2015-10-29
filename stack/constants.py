@@ -45,7 +45,7 @@ BUILTIN_OPS = (
     'get',
     'del',
     #Control flow
-   # 'while',
+    #'while',
     'if',
     'ifelse',
     #Word Definition ops
@@ -58,7 +58,7 @@ BUILTIN_OPS = (
     #Misc ops
     'wait',
     'reverse',
-    )
+)
 
 DATA_TYPES = (
     'str',
@@ -67,34 +67,44 @@ DATA_TYPES = (
     'list',
     'name',
     'code'
-    )
+)
 BLOCK_START = '{'
-BLOCK_END   = '}'
+BLOCK_END = '}'
 BLOCKS = (BLOCK_START, BLOCK_END)
 
 LIST_START = '['
-LIST_END   = ']'
+LIST_END = ']'
 LISTS = (LIST_START, LIST_END)
 
 
 def is_op(op):
     return op in BUILTIN_OPS
+
+
 def is_str(val):
     try:
         return val[0] == "'" and val[-1] == "'"
-    except (IndexError,TypeError):
+    except (IndexError, TypeError):
         return False
+
+
 def is_num(val):
     try:
         return type(float(val)) == float
     except ValueError:
         return False
+
+
 def is_bool(val):
-    return val in ('True','False')
+    return val in ('True', 'False')
+
+
 def is_list(val):
-    return val in ('[]','list')
+    return val in ('[]', 'list')
+
+
 def is_name(val):
-    return  val[0] == '`'
+    return val[0] == '`'
 ##    return \
 ##           val not in BUILTIN_OPS and\
 ##           val not in BLOCKS and\
@@ -102,12 +112,14 @@ def is_name(val):
 ##           not is_str(val) and\
 ##           not is_num(val) and\
 ##           not is_bool(val)
+
+
 def is_var(val):
         return \
-           val not in BUILTIN_OPS and\
-           val not in BLOCKS and\
-           val not in LISTS and\
-           not is_str(val) and\
-           not is_num(val) and\
-           not is_bool(val) and\
-           not is_name(val)
+            val not in BUILTIN_OPS and\
+            val not in BLOCKS and\
+            val not in LISTS and\
+            not is_str(val) and\
+            not is_num(val) and\
+            not is_bool(val) and\
+            not is_name(val)
