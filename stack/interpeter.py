@@ -652,9 +652,12 @@ def _stream_interpet(token_stream):
                 f = open(file_path, "r")
                 f_data = f.read()
                 f.close()
-                for tok in interpet(f_data):
+                tok_stream, result_scopes = interpet(f_data)
+                for tok in tok_stream:
                     data_stack.append(tok)
-    return data_stack
+                for scope in result_scopes:
+                    scopes.append(scope)
+    return data_stack, scopes
 
 
 def interpet(prog):
