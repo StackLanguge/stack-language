@@ -78,6 +78,10 @@ LIST_START = '['
 LIST_END = ']'
 LISTS = (LIST_START, LIST_END)
 
+COMMENT_START = "/*"
+COMMENT_END = "*/"
+COMMENTS = (COMMENT_START, COMMENT_END)
+
 
 def is_op(op):
     return op in BUILTIN_OPS
