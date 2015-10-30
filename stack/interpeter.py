@@ -1,8 +1,8 @@
 import sys
 import time
-import stack.stack_parser
-from stack.constants import *
-#Token = stack.stack_parser.Token
+import stack_parser
+import os
+from constants import *
 
 
 class Token:
@@ -26,7 +26,7 @@ def _stream_interpet(token_stream):
     data_stack = []
     #print(token_stream)
     for i, token in enumerate(token_stream):
-        #print(i,token)
+        #print(i, token)
         if token.TYPE in DATA_TYPES:
             #Push data onto the stack
             data_stack.append(token)
@@ -642,8 +642,24 @@ def _stream_interpet(token_stream):
                 else:
                     report_error('WORD_ERROR', 'call',
                                  '%s is not a callable object!' % str(val1))
+            elif op == 'import':
+                try:
+                    val1 = data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'call',
+                                 'There are not enough values to pop.')
+                file_path = os.path.abspath(val1.VAL) + ".stack"
+                f = open(file_path, "r")
+                f_data = f.read()
+                f.close()
+                tok_stream, result_scopes = interpet(f_data)
+                for tok in tok_stream:
+                    data_stack.append(tok)
+                for scope in result_scopes:
+                    scopes.append(scope)
+    return data_stack, scopes
 
 
 def interpet(prog):
-    tok_stream = stack.stack_parser.parse(prog)
+    tok_stream = stack_parser.parse(prog)
     return _stream_interpet(tok_stream)

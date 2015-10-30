@@ -58,6 +58,8 @@ BUILTIN_OPS = (
     #Misc ops
     'wait',
     'reverse',
+    #Import ops
+    'import',
 )
 
 DATA_TYPES = (

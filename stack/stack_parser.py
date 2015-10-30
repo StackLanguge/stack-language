@@ -1,7 +1,7 @@
 import collections
 import pickle
 import string
-from stack.constants import *
+from constants import *
 
 Token = collections.namedtuple('Token', 'TYPE VAL')
 
