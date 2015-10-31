@@ -1,23 +1,23 @@
-import sys
-import interpeter
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
-print('***Stack 2.0 Program Runner***')
-print("Running on Python", sys.version.split()[0])
-while True:
-    filename = input('Enter file name (nothing to exit): ')
-    if not filename:
-        break
+path = os.path.dirname(os.path.abspath(__file__))  # INSERT PATH HERE
+
+import sys
+sys.path.insert(0, path)
+import interpeter
+if len(sys.argv) != 2:
+    sys.exit(0)
+filename = sys.argv[1]
+try:
+    with open(filename) as f:
+        prog = f.read()
+    print('\n***STARTING PROGRAM***')
     try:
-        cd = os.path.abspath(os.path.dirname(filename))
-        print(cd)
-        os.chdir(cd)
-        with open(os.path.basename(filename)) as f:
-            prog = f.read()
-        print('\n***STARTING PROGRAM***')
-        try:
-            interpeter.interpet(prog)
-        except SystemExit:
-            pass
-        print('***ENDING PROGRAM***')
-    except IOError:
-        print('The file %s does not exist!' % filename)
+        interpeter.interpet(prog, filename)
+    except SystemExit:
+        pass
+    print('***ENDING PROGRAM***')
+except IOError as err:
+    print('The file %s does not exist!' % err.filename)
