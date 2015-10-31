@@ -21,8 +21,9 @@ def report_error(error_type, op, error_msg):
     sys.exit(1)
 
 
-def _stream_interpet(token_stream):
-    scopes = [{'user-words': {}}]
+def _stream_interpet(token_stream, location='here'):
+    scopes = [
+        {'user-words': {}, "var___file__": Token(TYPE='name', VAL=location)}]
     data_stack = []
     #print(token_stream)
     for i, token in enumerate(token_stream):
@@ -648,11 +649,14 @@ def _stream_interpet(token_stream):
                 except IndexError:
                     report_error('DATA_STACK', 'call',
                                  'There are not enough values to pop.')
-                file_path = os.path.abspath(val1.VAL) + ".stack"
+
+                file_path = (
+                    os.path.dirname(scopes[-1]["var___file__"].VAL) +
+                    '/' + val1.VAL + '.stack')
                 f = open(file_path, "r")
                 f_data = f.read()
                 f.close()
-                tok_stream, result_scopes = interpet(f_data)
+                tok_stream, result_scopes = interpet(f_data, file_path)
                 for tok in tok_stream:
                     data_stack.append(tok)
                 for scope in result_scopes:
@@ -660,6 +664,6 @@ def _stream_interpet(token_stream):
     return data_stack, scopes
 
 
-def interpet(prog):
+def interpet(prog, location=None):
     tok_stream = stack_parser.parse(prog)
-    return _stream_interpet(tok_stream)
+    return _stream_interpet(tok_stream, location)
