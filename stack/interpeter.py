@@ -206,7 +206,7 @@ def _stream_interpet(token_stream, location='here'):
                 except IndexError:
                     report_error('DATA_STACK', 'string',
                                  'There are not enough values to pop.')
-                res = Token(TYPE='str', VAL=str(val1.VAL))
+                res = Token(TYPE='str', VAL=str(val.VAL))
                 data_stack.append(res)
             elif op == 'letterof':
                 try:
