@@ -23,6 +23,22 @@
 } `lforeach def
 
 {
+    `join_str set
+    `l set
+    0 `cur set
+    '' `new_str set
+
+    l {
+        string `a set
+        new_str a concat
+        cur l llen 1 - != { join_str concat } if
+        `new_str set
+    } lforeach
+
+    new_str
+} `ljoin def
+
+{
     /*
         Create a new list based off of a previous one in which each item in the
         new list is the result of calling a function on the item in the same
@@ -86,4 +102,4 @@
     range { 1 - } lmap
 } `range0 def
 
-5 range0 { 3 * } lmap { print } lforeach
+3 range { string ', he said.' concat print } lforeach
