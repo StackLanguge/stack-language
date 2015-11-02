@@ -68,7 +68,8 @@ DATA_TYPES = (
     'bool',
     'list',
     'name',
-    'code'
+    'code',
+    'py-obj'
 )
 BLOCK_START = '{'
 BLOCK_END = '}'
