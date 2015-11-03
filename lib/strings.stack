@@ -1,0 +1,21 @@
+/* String utilities for Stack. */
+
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+`alphanumeric_letters set
+
+{
+    0 `parser set
+    {
+        parser letterof
+    }
+} `alphanumeric def
+
+{
+    `str set
+    0 `parser set
+    {
+        str parser letterof
+    }
+} `lettersof
+
+0 'hi' letterof print

@@ -221,7 +221,7 @@ def _stream_interpet(token_stream, location='here'):
                 if val2.TYPE != 'str':
                     report_error('TYPE', 'letterof',
                                  '%s is not a string!' % str(val2))
-                res = Token(TYPE='str', VAL=val2.VAL[val1.VAL])
+                res = Token(TYPE='str', VAL=val2.VAL[int(val1.VAL)])
                 data_stack.append(res)
             #IO ops
             elif op == 'print':
@@ -662,7 +662,6 @@ def _stream_interpet(token_stream, location='here'):
                     f = open(file_path + ".stack", "r")
                     import_type = "stack"
                 except IOError:
-                    print(file_path + ".py")
                     if not os.path.exists(file_path + ".py"):
                         report_error("IMPORT", "import",
                                                "Invalid import: %s" % val1.VAL)
@@ -676,7 +675,6 @@ def _stream_interpet(token_stream, location='here'):
                     for scope in result_scopes:
                         scopes.append(scope)
                 elif import_type == "python":
-                    print("Hey, we're importing some python here!")
                     sys.path.insert(0, directory)
                     module = importlib.import_module(val1.VAL).module
                     scope = {"user-words": {}}
