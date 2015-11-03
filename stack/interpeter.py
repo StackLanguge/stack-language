@@ -672,12 +672,13 @@ def _stream_interpet(token_stream, location='here'):
                     tok_stream, result_scopes = interpet(f_data, file_path)
                     for tok in tok_stream:
                         data_stack.append(tok)
-                    for scope in result_scopes:
-                        scopes.append(scope)
+                    for word in result_scopes[-1]["user-words"]:
+                        scopes[-1]["user-words"][word] = (
+                            result_scopes[-1]["user-words"][word])
                 elif import_type == "python":
                     sys.path.insert(0, directory)
                     module = importlib.import_module(val1.VAL).module
-                    scope = {"user-words": {}}
+                    print("==>", scopes[-1])
                     for index in module.keys():
                         item = module[index]
                         tok = Token("py-obj", item)

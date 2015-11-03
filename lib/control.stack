@@ -21,5 +21,3 @@
 
     recur
 } `while def
-
-10 { 'Spam!' print } repeattimes
