@@ -4,6 +4,8 @@ BUILTIN_OPS = (
     '-',
     '*',
     '/',
+    '%',
+    'pow',
     'num',
     'BAND',
     'BOR',
@@ -13,6 +15,7 @@ BUILTIN_OPS = (
     'concat',
     'string',
     'letterof',
+    'slen',
     #IO ops
     'print',
     'input',
@@ -25,6 +28,8 @@ BUILTIN_OPS = (
     'and',
     '=',
     '!=',
+    'lt',
+    'gt',
     'not',
     #List ops
     'lnth',

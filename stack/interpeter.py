@@ -124,6 +124,34 @@ def _stream_interpet(token_stream, location='here'):
                                  '%s is not a number!' % str(val2))
                 res = Token(TYPE='num', VAL=val1.VAL/val2.VAL)
                 data_stack.append(res)
+            elif op == '%':
+                try:
+                    val2, val1 = data_stack.pop(), data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', '%',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != 'num':
+                    report_error('TYPE', '%',
+                                 '%s is not a number!' % str(val1))
+                if val2.TYPE != 'num':
+                    report_error('TYPE', '%',
+                                 '%s is not a number!' % str(val2))
+                res = Token(TYPE='num', VAL=val1.VAL%val2.VAL)
+                data_stack.append(res)
+            elif op == 'pow':
+                try:
+                    val2, val1 = data_stack.pop(), data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'pow',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != 'num':
+                    report_error('TYPE', 'pow',
+                                 '%s is not a number!' % str(val1))
+                if val2.TYPE != 'num':
+                    report_error('TYPE', 'pow',
+                                 '%s is not a number!' % str(val2))
+                res = Token(TYPE='num', VAL=val1.VAL**val2.VAL)
+                data_stack.append(res)
             elif op == 'num':
                 try:
                     val1 = data_stack.pop()
@@ -199,6 +227,17 @@ def _stream_interpet(token_stream, location='here'):
                     report_error('TYPE', 'concat',
                                  '%s is not a string!' % str(val2))
                 res = Token(TYPE='str', VAL=val1.VAL+val2.VAL)
+                data_stack.append(res)
+            elif op == 'slen':
+                try:
+                    val = data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'slen',
+                                 'There are not enough values to pop.')
+                if val.TYPE != 'str':
+                    report_error('TYPE', 'slen',
+                                 '%s is not a string!' % str(val))
+                res = Token(TYPE='num', VAL=len(val.VAL))
                 data_stack.append(res)
             elif op == 'string':
                 try:
@@ -308,6 +347,32 @@ def _stream_interpet(token_stream, location='here'):
                 res = Token(
                     TYPE='bool',
                     VAL=((val1.TYPE == val2.TYPE) and (val1.VAL == val2.VAL)))
+                data_stack.append(res)
+            elif op == 'lt':
+                try:
+                    val2, val1 = data_stack.pop(), data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'lt',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != val2.TYPE:
+                    report_error('TYPE', 'lt',
+                                 '%s and %s are not the same type!' % (val1.VAL,val2.VAL))
+                res = Token(
+                    TYPE='bool',
+                    VAL=val1.VAL < val2.VAL)
+                data_stack.append(res)
+            elif op == 'gt':
+                try:
+                    val2, val1 = data_stack.pop(), data_stack.pop()
+                except IndexError:
+                    report_error('DATA_STACK', 'gt',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != val2.TYPE:
+                    report_error('TYPE', 'gt',
+                                 '%s and %s are not the same type!' % (val1.VAL,val2.VAL))
+                res = Token(
+                    TYPE='bool',
+                    VAL=val1.VAL > val2.VAL)
                 data_stack.append(res)
             elif op == '!=':
                 try:
@@ -666,4 +731,5 @@ def _stream_interpet(token_stream, location='here'):
 
 def interpet(prog, location=None):
     tok_stream = stack_parser.parse(prog)
+    print(tok_stream)
     return _stream_interpet(tok_stream, location)
