@@ -94,7 +94,7 @@ def is_op(op):
 
 def is_str(val):
     try:
-        return val[0] == "'" and val[-1] == "'"
+        return (val[0] == "'" and val[-1] == "'") or (val[0] == '"' and val[-1] == '"')
     except (IndexError, TypeError):
         return False
 

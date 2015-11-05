@@ -80,5 +80,6 @@ def compile_to_file(prog, filename):
     f.close()
 
 if __name__ == '__main__':
+    print(parse('''"spam" 'ham' print print'''))
     print(parse("5 `n set n"))
     print(parse("'hello' /* this is a comment */ 'world'"))
