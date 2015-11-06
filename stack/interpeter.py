@@ -497,8 +497,10 @@ def _stream_interpet(token_stream, location='here'):
                 if val1.TYPE != 'list':
                     report_error('TYPE', 'lshift',
                                  '%s is not a list!' % str(val1))
-                val1.VAL[int(val2.VAL % len(val1.VAL)):] + val1.VAL[:int(val2.VAL % len(val1.VAL))]
-                data_stack.append(val1)
+                x = val1.VAL[int(val2.VAL % len(val1.VAL)):] + val1.VAL[:int(val2.VAL % len(val1.VAL))]
+                data_stack.append(Token(
+                    TYPE='list',
+                    VAL=x))
             elif op == 'lclear':
                 try:
                     val1 = data_stack.pop()
