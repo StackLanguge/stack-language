@@ -4,6 +4,8 @@ BUILTIN_OPS = (
     '-',
     '*',
     '/',
+    '%',
+    'pow',
     'num',
     'BAND',
     'BOR',
@@ -13,6 +15,7 @@ BUILTIN_OPS = (
     'concat',
     'string',
     'letterof',
+    'slen',
     #IO ops
     'print',
     'input',
@@ -25,6 +28,8 @@ BUILTIN_OPS = (
     'and',
     '=',
     '!=',
+    'lt',
+    'gt',
     'not',
     #List ops
     'lnth',
@@ -89,7 +94,7 @@ def is_op(op):
 
 def is_str(val):
     try:
-        return val[0] == "'" and val[-1] == "'"
+        return (val[0] == "'" and val[-1] == "'") or (val[0] == '"' and val[-1] == '"')
     except (IndexError, TypeError):
         return False
 
