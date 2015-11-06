@@ -731,5 +731,5 @@ def _stream_interpet(token_stream, location='here'):
 
 def interpet(prog, location=None):
     tok_stream = stack_parser.parse(prog)
-    print(tok_stream)
+    # print(tok_stream)
     return _stream_interpet(tok_stream, location)
