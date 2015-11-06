@@ -4,6 +4,7 @@
     0 `n set
 
     {
+        'ur at ' n string concat print
         n 1 + `n set
         n times != { func call recur } if
     } `recur def
