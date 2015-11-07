@@ -1,0 +1,23 @@
+{
+    `func set
+    `times set
+    0 `n set
+
+    {
+        n 1 + `n set
+        n times != { func call recur } if
+    } `recur def
+
+    recur
+} `repeattimes def
+
+{
+    `func_conditional set
+    `func_loop set
+
+    {
+        func_conditional call { func_loop recur } if
+    } `recur def
+
+    recur
+} `while def

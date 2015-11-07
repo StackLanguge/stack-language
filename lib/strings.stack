@@ -1,0 +1,50 @@
+/* String utilities for Stack. */
+
+`_strings import
+`control import
+
+10 { 'hi' _len print } repeattimes
+
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+`alphanumeric_letters set
+
+{
+    `str set
+    `end set
+    `parser set
+    '' `new_str set
+    {
+        new_str parser str letterof concat `new_str set
+        parser 1 + `parser set
+
+        parser end = { new_str } { recur } ifelse
+    } `recur def
+    recur
+} `lettersof def
+
+{
+    `sub set
+    `base set
+    False `condition set
+    0 `i set
+
+    {
+        'ok' print
+    } base slen sub slen - 1 + repeattimes
+} `scontains def
+
+{
+    /*
+        Get the length of a string.
+
+        Syntax:
+            <str> slen
+
+        Examples:
+            'Hello world!' slen -> 12
+
+            'There are ' 'Word: ' input slen string
+            ' letters in that word.' concat concat print
+    */
+    _len
+} `slen def
