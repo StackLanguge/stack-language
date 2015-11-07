@@ -743,7 +743,6 @@ def _stream_interpet(token_stream, location='here'):
                 elif import_type == "python":
                     sys.path.insert(0, directory)
                     module = importlib.import_module(val1.VAL).module
-                    print("==>", scopes[-1])
                     for index in module.keys():
                         item = module[index]
                         tok = Token("py-obj", item)
