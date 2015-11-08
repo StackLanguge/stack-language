@@ -757,7 +757,6 @@ def _stream_interpet(token_stream, location='here'):
                     import_name = val1.VAL.split("/")[-1]
                     abs_directory = os.path.abspath(
                         directory + "/" + "/".join(val1.VAL.split("/")[:-1]))
-                    print("--", abs_directory, import_name)
                     sys.path.insert(0, abs_directory)
                     module = importlib.import_module(import_name).module
                     for index in module.keys():
