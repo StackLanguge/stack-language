@@ -2,8 +2,8 @@
 
 newobj `obj set
 
-obj `hi 30 <-
+obj `hi 30 setprop
 
 obj print
 
-obj `hi -> print
+obj `hi prop print

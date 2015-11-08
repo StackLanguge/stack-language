@@ -14,39 +14,26 @@ def newobj(interpeter, stack, scopes, stream):
     stack.append(tok)
 
 
-def _propof(val1, val2, interpeter):
-    if not val1 in val2.keys():
+def prop(interpeter, stack, scopes, stream):
+    val2, val1 = stack.pop().VAL, stack.pop().VAL
+    if not val2 in val1.keys():
         interpeter.report_error(
             "OOP_ERROR",
             "propof",
             "Property not in object!")
-    value = val2[val1]
-    return value
+    value = val1[val2]
+    tok = interpeter.Token(TYPE='str', VAL=value)
+    stack.append(tok)
 
 
-def arrow_setprop(interpeter, stack, scopes, stream):
+def setprop(interpeter, stack, scopes, stream):
     val3, val2, val1 = [i.VAL for i in (stack.pop(), stack.pop(), stack.pop())]
     val1[val2] = val3
-
-
-def propof(interpeter, stack, scopes, stream):
-    val2, val1 = stack.pop().VAL, stack.pop().VAL
-    value = _propof(val1, val2, interpeter)
-    tok = interpeter.Token(TYPE='py-obj', VAL=value)
-    stack.append(tok)
-
-
-def arrow_propof(interpeter, stack, scopes, stream):
-    val2, val1 = stack.pop().VAL, stack.pop().VAL
-    value = _propof(val2, val1, interpeter)
-    tok = interpeter.Token(TYPE='py-obj', VAL=value)
-    stack.append(tok)
 
 
 module = {
     "newobj": newobj,
     "mapobj": mapobj,
-    "propof": propof,
-    "->": arrow_propof,
-    "<-": arrow_setprop
+    "prop": prop,
+    "setprop": setprop
 }
