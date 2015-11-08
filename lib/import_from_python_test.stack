@@ -1,0 +1,16 @@
+/* The import_from_python module allows you to import Python modules and store
+them in py-obj tokens. */
+`import_from_python import
+
+/* We need to use the oop_base module to retreive items from the py-obj token
+that import_from_python gives us. */
+`oop_base import
+
+/* Now use the import_from_python function to import Python's json module. */
+'json' import_from_python `json set
+
+[] newobj "x" 30 setprop lappend `args set
+
+"Args:" print args string print
+
+json "dumps" prop args py_call print
