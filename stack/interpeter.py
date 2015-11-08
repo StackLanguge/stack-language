@@ -56,7 +56,7 @@ def _stream_interpet(token_stream, location='here'):
 
             #INDEX:
             # (op type)   (lines)
-            # Math ops: 32-149
+            # Math ops: 32-149 Uhh.... 32 is not even ops yet?
             # String ops: 150-173
             # IO ops: 174-191
             # Data Stack ops: 193-212
@@ -489,6 +489,19 @@ def _stream_interpet(token_stream, location='here'):
                                  '%s is not a list!' % str(val1))
                 val1.VAL.reverse()
                 data_stack.append(val1)
+            elif op == 'lshift':
+                try:
+                    val2, val1 = (data_stack.pop(), data_stack.pop())
+                except IndexError:
+                    report_error('DATA_STACK', 'lshift',
+                                 'There are not enough values to pop.')
+                if val1.TYPE != 'list':
+                    report_error('TYPE', 'lshift',
+                                 '%s is not a list!' % str(val1))
+                x = val1.VAL[int(val2.VAL % len(val1.VAL)):] + val1.VAL[:int(val2.VAL % len(val1.VAL))]
+                data_stack.append(Token(
+                    TYPE='list',
+                    VAL=x))
             elif op == 'lclear':
                 try:
                     val1 = data_stack.pop()

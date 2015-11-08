@@ -45,6 +45,7 @@ BUILTIN_OPS = (
     'lpopn',
     'ldeln',
     'lreplace',
+    'lshift',
     #Variable ops
     'set',
     'get',
