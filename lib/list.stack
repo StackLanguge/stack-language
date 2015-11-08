@@ -1,0 +1,105 @@
+{
+    /*
+        Run a function on each of the items in a list.
+
+        Syntax:
+            <list> <code> lforeach
+
+        Example:
+            [] 'hello' lappend 'world' lappend { print } lforeach
+    */
+
+    `f set
+    `l set
+    0 `cur set
+
+    {
+        l cur lnth f call
+        cur 1 + `cur set
+        l llen cur != { recur } if
+    } `recur def
+
+    recur
+} `lforeach def
+
+{
+    `join_str set
+    `l set
+    0 `cur set
+    '' `new_str set
+
+    l {
+        string `a set
+        new_str a concat
+        cur l llen 1 - != { join_str concat } if
+        `new_str set
+    } lforeach
+
+    new_str
+} `ljoin def
+
+{
+    /*
+        Create a new list based off of a previous one in which each item in the
+        new list is the result of calling a function on the item in the same
+        position in the old list.
+
+        Syntax:
+            <list> <code> lmap
+
+        Examples:
+            5 range { 5 * } lmap -> [5, 10, 15, 20, 25]
+    */
+
+    `f set
+    `l set
+    0 `cur set
+
+    {
+        l cur l cur lnth f call lreplace
+        cur 1 + `cur set
+        cur l llen != { pop recur } if
+    } `recur def
+
+    recur
+} `lmap def
+
+{
+    /*
+        Generate a range of numbers from 1 to (arg).
+
+        Syntax:
+            <num> range
+
+        Examples:
+            3 range -> [1.0, 2.0, 3.0]
+    */
+
+    `stop set
+    0 `cur set
+    [] `list set
+
+    {
+        cur 1 + `cur set
+        list cur lappend
+        stop cur != { pop recur } if
+    } `recur def
+
+    recur
+} `range def
+
+{
+    /*
+        Generate a range of numbers from 0 to (arg) - 1.
+
+        Syntax:
+            <num> range0
+
+        Examples:
+            3 range0 -> [0.0, 1.0, 2.0]
+    */
+
+    range { 1 - } lmap
+} `range0 def
+
+3 range { string ', he said.' concat print } lforeach
