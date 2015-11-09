@@ -1,0 +1,11 @@
+`../fileio import
+
+'read.txt' fopen dup print fread print
+
+'write.txt' fopen 'Hey!' fwritebreak
+
+'write.txt' fopen fread print
+
+'read.txt' fopen freadnobreak print
+
+'write.txt' fopen freadnobreak print

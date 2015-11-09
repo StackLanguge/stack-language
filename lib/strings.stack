@@ -1,0 +1,36 @@
+/* String utilities for Stack. */
+
+`_strings import
+`control import
+
+{
+    `str set
+    `end set
+    `parser set
+    '' `new_str set
+    {
+        new_str parser str letterof concat `new_str set
+        parser 1 + `parser set
+
+        parser end = { new_str } { recur } ifelse
+    } `recur def
+    end parser = { 'Mate really.. ' end string concat print 'No return mate.' } { recur } ifelse
+} `lettersof def
+
+{
+    /*
+        Get the length of a string.
+
+        Syntax:
+            <str> slen
+
+        Examples:
+            'Hello world!' slen -> 12
+
+            'There are ' 'Word: ' input slen string
+            ' letters in that word.' concat concat print
+    */
+    _len
+} `slen def
+
+'hello world' 'hello' scontains dumpstack

@@ -1,7 +1,8 @@
+import importlib
 import sys
 import time
-import stack_parser
 import os
+import stack_parser
 from constants import *
 
 
@@ -259,7 +260,7 @@ def _stream_interpet(token_stream, location='here'):
                 if val2.TYPE != 'str':
                     report_error('TYPE', 'letterof',
                                  '%s is not a string!' % str(val2))
-                res = Token(TYPE='str', VAL=val2.VAL[val1.VAL])
+                res = Token(TYPE='str', VAL=val2.VAL[int(val1.VAL)])
                 data_stack.append(res)
             #IO ops
             elif op == 'print':
@@ -716,8 +717,13 @@ def _stream_interpet(token_stream, location='here'):
                     val1.TYPE == 'name' and
                     'word_' + val1.VAL in scopes[-1]['user-words']
                 ):
-                    token_stream[i+1:i+1] = (
-                        scopes[-1]['user-words']['word_' + val1.VAL].VAL)
+                    word = scopes[-1]['user-words']['word_' + val1.VAL]
+                    if word.TYPE == 'py-obj':
+                        word.VAL(
+                            sys.modules[__name__], data_stack, scopes,
+                            token_stream)
+                    else:
+                        token_stream[i+1:i+1] = word.VAL
                 else:
                     report_error('WORD_ERROR', 'call',
                                  '%s is not a callable object!' % str(val1))
@@ -728,17 +734,35 @@ def _stream_interpet(token_stream, location='here'):
                     report_error('DATA_STACK', 'call',
                                  'There are not enough values to pop.')
 
-                file_path = (
-                    os.path.dirname(scopes[-1]["var___file__"].VAL) +
-                    '/' + val1.VAL + '.stack')
-                f = open(file_path, "r")
-                f_data = f.read()
-                f.close()
-                tok_stream, result_scopes = interpet(f_data, file_path)
-                for tok in tok_stream:
-                    data_stack.append(tok)
-                for scope in result_scopes:
-                    scopes.append(scope)
+                directory = os.path.dirname(scopes[0]["var___file__"].VAL)
+                file_path = directory + '/' + val1.VAL
+                try:
+                    f = open(file_path + ".stack", "r")
+                    import_type = "stack"
+                except IOError:
+                    if not os.path.exists(file_path + ".py"):
+                        report_error("IMPORT", "import",
+                                               "Invalid import: %s" % val1.VAL)
+                    import_type = "python"
+                if import_type == "stack":
+                    f_data = f.read()
+                    f.close()
+                    tok_stream, result_scopes = interpet(f_data, file_path)
+                    for tok in tok_stream:
+                        data_stack.append(tok)
+                    for word in result_scopes[-1]["user-words"]:
+                        scopes[-1]["user-words"][word] = (
+                            result_scopes[-1]["user-words"][word])
+                elif import_type == "python":
+                    import_name = val1.VAL.split("/")[-1]
+                    abs_directory = os.path.abspath(
+                        directory + "/" + "/".join(val1.VAL.split("/")[:-1]))
+                    sys.path.insert(0, abs_directory)
+                    module = importlib.import_module(import_name).module
+                    for index in module.keys():
+                        item = module[index]
+                        tok = Token("py-obj", item)
+                        scopes[-1]["user-words"]["word_" + index] = tok
     return data_stack, scopes
 
 
